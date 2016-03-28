@@ -85,5 +85,17 @@ def test_news_api():
         r = requests.get("http://127.0.0.1:8888/api/news/",
                          params={"title": "test_title"})
         assert r.status_code == 404
+        # test 404
+        r = requests.get("http://127.0.0.1:8888/api/news/")
+        assert r.status_code == 404
+        r = requests.post("http://127.0.0.1:8888/api/news/",
+                          cookies=user_cookie)
+        assert r.status_code == 404
+        r = requests.delete("http://127.0.0.1:8888/api/news/",
+                            cookies=user_cookie)
+        assert r.status_code == 404
+        r = requests.put("http://127.0.0.1:8888/api/news/",
+                         cookies=user_cookie)
+        assert r.status_code == 404
     finally:
         stop()
