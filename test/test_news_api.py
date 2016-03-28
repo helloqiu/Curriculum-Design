@@ -60,5 +60,30 @@ def test_news_api():
         assert news["body"] == "test_body"
         assert news["date"] == "test_date"
         assert news["column"] == "test_column"
+
+        # test post
+        change_news = {"title": "test_title",
+                       "author": "change_author",
+                       "date": "change_date",
+                       "body": "change_body",
+                       "column": "change_column"}
+
+        r = requests.post("http://127.0.0.1:8888/api/news/",
+                          cookies=user_cookie,
+                          data={"body": json.dumps(change_news)})
+        assert r.status_code == 200
+        r = requests.get("http://127.0.0.1:8888/api/news/",
+                         params={"title": "test_title"})
+        assert r.status_code == 200
+        assert r.json() == change_news
+
+        # test delete
+        r = requests.delete("http://127.0.0.1:8888/api/news/",
+                            cookies=user_cookie,
+                            params={"title": "test_title"})
+        assert r.status_code == 200
+        r = requests.get("http://127.0.0.1:8888/api/news/",
+                         params={"title": "test_title"})
+        assert r.status_code == 404
     finally:
         stop()

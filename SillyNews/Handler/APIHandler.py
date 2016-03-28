@@ -19,10 +19,10 @@ class APINewsHandler(APIHandler):
         if news_title is None:
             raise tornado.web.HTTPError(404)
         news = await self.db.news.find({"title": news_title}).to_list(None)
-        news = news[0]
-        if news is []:
+        if news == [] or news is None:
             raise tornado.web.HTTPError(404)
         else:
+            news = news[0]
             self.write(json.dumps({"title": news["title"],
                                    "author": news["author"],
                                    "date": news["date"],
@@ -40,3 +40,24 @@ class APINewsHandler(APIHandler):
                                    "author": body["author"],
                                    "date": body["date"],
                                    "column": body["column"]})
+
+    @tornado.web.authenticated
+    async def post(self):
+        body = self.get_body_argument("body", None)
+        if body is None:
+            raise tornado.web.HTTPError(404)
+        body = json.loads(body)
+        news = await self.db.news.find({"title": body["title"]}).to_list(None)
+        if news is None:
+            raise tornado.web.HTTPError(404)
+        else:
+            news = news[0]
+            self.db.news.update({"_id": news["_id"]},
+                                body)
+
+    @tornado.web.authenticated
+    async def delete(self):
+        news_title = self.get_query_argument("title", None)
+        if news_title is None:
+            raise tornado.web.HTTPError(404)
+        await self.db.news.remove({"title": news_title})
