@@ -1,0 +1,81 @@
+swagger: '2.0'
+info:
+  version: "0.0.1"
+  title: Silly News
+paths:
+  /api/news/:
+    get:
+      description: |
+        Get ```News``` object.
+      parameters:
+        - name: title
+          type: string
+          in: query
+          description: The title of the ```News``` object
+          required: true
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/News'
+        404:
+          description: Do not find the news
+    put:
+      description: Add ```News``` object.
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: The ```News``` obejct
+          schema:
+            $ref: '#/definitions/News'
+      responses:
+        200:
+          description: Successful response
+        403:
+          description: Permission denied
+    post:
+      description: Update ```News``` object.
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: The ```News``` obejct that user want to update
+          schema:
+            $ref: '#/definitions/News'
+      responses:
+        200:
+          description: Successful response
+        403:
+          description: Permission denied
+        404:
+          description: Do not find the news
+    delete:
+      description: Delete ```News``` object
+      parameters:
+        - name: title
+          in: query
+          required: true
+          description: The title of the ```News``` object
+          type: string
+      responses:
+        200:
+          description: Successful response
+        403:
+          description: Permission denied
+    
+    
+definitions:
+  News:
+    type: object
+    properties:
+      title:
+        type: string
+      author:
+        type: string
+      date:
+        type: string
+      body:
+        type: string
+      column:
+        type: string

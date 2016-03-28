@@ -10,7 +10,7 @@ python setup.py test
 # run the app
 python SillyNews/app.py
 ```
-# License
+# License  
 ```
            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                    Version 2, December 2004
@@ -25,4 +25,4 @@ as the name is changed.
   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 
  0. You just DO WHAT THE FUCK YOU WANT TO.
-```
+```  
