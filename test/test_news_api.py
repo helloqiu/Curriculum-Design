@@ -4,7 +4,6 @@
 import requests
 import pymongo
 from nose.tools import with_setup
-import multiprocessing
 from SillyNews.app import *
 import time
 import json
@@ -96,6 +95,30 @@ def test_news_api():
         assert r.status_code == 404
         r = requests.put("http://127.0.0.1:8888/api/news/",
                          cookies=user_cookie)
+        assert r.status_code == 404
+
+        # test column
+        # test put column
+        r = requests.put("http://127.0.0.1:8888/api/column/",
+                         cookies=user_cookie)
+        assert r.status_code == 404
+        r = requests.put("http://127.0.0.1:8888/api/column/",
+                         cookies=user_cookie,
+                         data={"column": "test_column"})
+        assert r.status_code == 200
+        r = requests.put("http://127.0.0.1:8888/api/column/",
+                         cookies=user_cookie,
+                         data={"column": "test_column"})
+        assert r.status_code == 404
+        # test get column
+        r = requests.get("http://127.0.0.1:8888/api/column/")
+        assert r.status_code == 404
+        r = requests.get("http://127.0.0.1:8888/api/column/",
+                         params={"column": "test_column"})
+        assert r.status_code == 200
+        assert r.json() == []
+        r = requests.get("http://127.0.0.1:8888/api/column/",
+                         params={"column": "wrong_column"})
         assert r.status_code == 404
     finally:
         stop()

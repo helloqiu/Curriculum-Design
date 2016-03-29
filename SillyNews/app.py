@@ -19,7 +19,9 @@ def make_app(db):
         (r'/api/news/',
          APINewsHandler, dict(db=db)),
         (r'/login/',
-         LoginHandler, dict(db=db))
+         LoginHandler, dict(db=db),),
+        (r'/api/column/',
+         APIColumnHandler, dict(db=db))
     ],
         default_host='',
         transforms=None,

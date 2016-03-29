@@ -61,3 +61,29 @@ class APINewsHandler(APIHandler):
         if news_title is None:
             raise tornado.web.HTTPError(404)
         await self.db.news.remove({"title": news_title})
+
+
+class APIColumnHandler(APIHandler):
+    '''The RequestHandler for column api'''
+
+    @tornado.web.authenticated
+    async def put(self):
+        column_name = self.get_body_argument("column", None)
+        if column_name is None:
+            raise tornado.web.HTTPError(404)
+        column = await self.db.column.find({"name": column_name}).to_list(None)
+        if column != []:
+            raise tornado.web.HTTPError(404)
+        else:
+            await self.db.column.insert({"name": column_name})
+
+    async def get(self):
+        column_name = self.get_query_argument("column", None)
+        if column_name is None:
+            raise tornado.web.HTTPError(404)
+        column = await self.db.column.find({"name": column_name}).to_list(None)
+        if column == []:
+            raise tornado.web.HTTPError(404)
+        articles = await self.db.article.find({"column": column_name},
+                                              {"title": 1, "date": 1}).to_list(None)
+        self.write(json.dumps(articles))
