@@ -120,5 +120,9 @@ def test_news_api():
         r = requests.get("http://127.0.0.1:8888/api/column/",
                          params={"column": "wrong_column"})
         assert r.status_code == 404
+        # test get all column
+        r = requests.get("http://127.0.0.1:8888/api/getallcolumn/")
+        assert r.status_code == 200
+        assert r.json() == [{"name": "test_column"}]
     finally:
         stop()

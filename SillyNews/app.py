@@ -18,10 +18,12 @@ def make_app(db):
     return tornado.web.Application([
         (r'/api/news/',
          APINewsHandler, dict(db=db)),
-        (r'/login/',
-         LoginHandler, dict(db=db),),
         (r'/api/column/',
-         APIColumnHandler, dict(db=db))
+         APIColumnHandler, dict(db=db)),
+        (r'/api/getallcolumn/',
+         APIGetAllColumnHandler, dict(db=db)),
+        (r'/login/',
+         LoginHandler, dict(db=db))
     ],
         default_host='',
         transforms=None,

@@ -18,16 +18,12 @@ class APINewsHandler(APIHandler):
         news_title = self.get_query_argument("title", None)
         if news_title is None:
             raise tornado.web.HTTPError(404)
-        news = await self.db.news.find({"title": news_title}).to_list(None)
+        news = await self.db.news.find({"title": news_title}, {"_id": 0}).to_list(None)
         if news == [] or news is None:
             raise tornado.web.HTTPError(404)
         else:
             news = news[0]
-            self.write(json.dumps({"title": news["title"],
-                                   "author": news["author"],
-                                   "date": news["date"],
-                                   "body": news["body"],
-                                   "column": news["column"]}))
+            self.write(json.dumps(news))
 
     @tornado.web.authenticated
     async def put(self):
@@ -85,5 +81,13 @@ class APIColumnHandler(APIHandler):
         if column == []:
             raise tornado.web.HTTPError(404)
         articles = await self.db.article.find({"column": column_name},
-                                              {"title": 1, "date": 1}).to_list(None)
+                                              {"title": 1, "date": 1, "_id": 0}).to_list(None)
         self.write(json.dumps(articles))
+
+
+class APIGetAllColumnHandler(APIColumnHandler):
+    '''The RequestHandler for getAllColumn api'''
+
+    async def get(self):
+        columns = await self.db.column.find({}, {"name": 1, "_id": 0}).to_list(None)
+        self.write(json.dumps(columns))

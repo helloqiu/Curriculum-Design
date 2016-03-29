@@ -63,7 +63,47 @@ paths:
           description: Successful response
         403:
           description: Permission denied
-    
+  /api/column:
+    get:
+      description: Get all ```News``` object in this column
+      parameters:
+        - name: column
+          type: string
+          required: true
+          description: The column name
+          in: query
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/BriefNews'
+        404:
+          description: Not find
+    put:
+      description: Add a new column
+      parameters:
+        - name: column
+          required: true
+          description: The column name
+          in: body
+          schema:
+            $ref: '#/definitions/Column'
+      responses:
+        200:
+          description: Successful response
+        403:
+          description: Permission denied
+        404:
+          description: Same name
+  /api/getallcloumn/:
+    get:
+      description: Get all ```column```
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/AllColumn'
+              
     
 definitions:
   News:
@@ -79,3 +119,17 @@ definitions:
         type: string
       column:
         type: string
+  BriefNews:
+    type: object
+    properties:
+      title:
+        type: string
+      date:
+        type: string
+  AllColumn:
+    type: object
+    properties:
+      name:
+        $ref: '#/definitions/Column'
+  Column:
+    type: string
