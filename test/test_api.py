@@ -1,13 +1,14 @@
 # !/usr/bin/env python
 # coding=utf-8
 
-import requests
-import pymongo
-from nose.tools import with_setup
-from SillyNews.app import *
-import time
 import json
 import threading
+import time
+
+import pymongo
+import requests
+from app import *
+from nose.tools import with_setup
 
 
 def setup_func():

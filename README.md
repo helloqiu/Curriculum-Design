@@ -1,5 +1,5 @@
 # Curriculum Design [![Build Status](https://travis-ci.org/helloqiu/Curriculum-Design.svg?branch=master)](https://travis-ci.org/helloqiu/Curriculum-Design) [![Coverage Status](https://coveralls.io/repos/github/helloqiu/Curriculum-Design/badge.svg?branch=master)](https://coveralls.io/github/helloqiu/Curriculum-Design?branch=master)
-This is the curriculum for myself.
+> This is the curriculum for myself.
 # Usage
 ```bash
 virtualenv venv
@@ -8,7 +8,7 @@ pip install -r requirements.txt
 # run tests
 python setup.py test
 # run the app
-python SillyNews/app.py
+python app.py
 ```
 # License  
 ```
