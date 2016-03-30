@@ -90,4 +90,9 @@ class APIGetAllColumnHandler(APIColumnHandler):
 
     async def get(self):
         columns = await self.db.column.find({}, {"name": 1, "_id": 0}).to_list(None)
-        self.write(json.dumps(columns))
+        return_values = []
+        for column in columns:
+            articles = await self.db.article.find({"column": column["name"]},
+                                                  {"title": 1, "date": 1, "_id": 0}).to_list(None)
+            return_values.append(articles)
+        self.write(json.dumps(return_values))
