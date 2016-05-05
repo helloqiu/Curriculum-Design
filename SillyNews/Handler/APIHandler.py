@@ -31,11 +31,7 @@ class APINewsHandler(APIHandler):
         if body is None:
             raise tornado.web.HTTPError(404)
         body = json.loads(body)
-        await self.db.news.insert({"title": body["title"],
-                                   "body": body["body"],
-                                   "author": body["author"],
-                                   "date": body["date"],
-                                   "column": body["column"]})
+        await self.db.news.insert(body)
 
     @tornado.web.authenticated
     async def post(self):
