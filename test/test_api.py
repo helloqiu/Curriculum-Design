@@ -124,6 +124,5 @@ def test_news_api():
         # test get all column
         r = requests.get("http://127.0.0.1:8888/api/getallcolumn/")
         assert r.status_code == 200
-        print(r.json())
     finally:
         stop()

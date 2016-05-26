@@ -18,7 +18,7 @@ class LoginHandler(RequestHandler):
             "username": username[0], "password": password[0]
         })
         user = await user.to_list(None)
-        if user is [] or user is None:
+        if user == [] or user is None:
             self.redirect("/login/?login=false")
         else:
             user = user[0]

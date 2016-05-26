@@ -76,9 +76,9 @@ class APIColumnHandler(APIHandler):
         column = await self.db.column.find({"name": column_name}).to_list(None)
         if column == []:
             raise tornado.web.HTTPError(404)
-        articles = await self.db.article.find({"column": column_name},
+        news = await self.db.news.find({"column": column_name},
                                               {"title": 1, "date": 1, "_id": 0}).to_list(None)
-        self.write(json.dumps(articles))
+        self.write(json.dumps(news))
 
 
 class APIGetAllColumnHandler(APIColumnHandler):
@@ -88,7 +88,7 @@ class APIGetAllColumnHandler(APIColumnHandler):
         columns = await self.db.column.find({}, {"name": 1, "_id": 0}).to_list(None)
         return_values = []
         for column in columns:
-            articles = await self.db.article.find({"column": column["name"]},
+            news = await self.db.news.find({"column": column["name"]},
                                                   {"title": 1, "date": 1, "_id": 0}).to_list(None)
-            return_values.append({"name": column["name"], "articles": articles})
+            return_values.append({"name": column["name"], "news": news})
         self.write(json.dumps(return_values))
